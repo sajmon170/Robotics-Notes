@@ -1,0 +1,5 @@
+#+TITLE: Robotyczny Rój™ - notatki
+#+LANGUAGE: pl
+
+* Format
+Warto sobie zrobić osobny dokument z rzeczami do uzupełnienia. Warto dokumentować też o jakie źródło dana notatka się opiera. Poza tym piszcie notatki w sposób który będzie dla was najbardziej wygodny. Powodzenia!
