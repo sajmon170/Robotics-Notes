@@ -1,7 +1,13 @@
-#+TITLE: Robotyczny Rój™ - notatki
-#+LANGUAGE: pl
+* Robotyczny Rój™ - notatki
 
 | Obecne pytania | [[https://docs.google.com/document/d/1kyzdxYgQJ5d-sMB5JxBOJCcFcyahFhYriUiPCamjrJ4/edit?usp=drive_link]] |
 
-* Format
-Warto sobie zrobić osobny dokument z rzeczami do uzupełnienia. Warto dokumentować też o jakie źródło dana notatka się opiera. Poza tym piszcie notatki w sposób który będzie dla was najbardziej wygodny. Powodzenia!
+**  Format
+Notatki powinny zawierać:
+- osobną sekcję, w której zapisywane są rzeczy do dokończenia
+- źródła na podstawie których utworzono notatkę
+
+Poza tym uporządkujcie sobie wasz katalog tak, aby było wam jak najwygodniej.
+
+** Co umieszczać w notatkach?
+Pliki tekstowe bądź małe fragmenty kodu/przykłady jak coś zastosować. Jeżeli czujecie, że wasz kod zmienia się w mini-projekt umieśćcie go na swoim GitHubie i dodajcie do niego tutaj link.
