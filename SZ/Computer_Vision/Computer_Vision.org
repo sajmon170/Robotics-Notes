@@ -1,0 +1,68 @@
+#+TITLE: Rozpoznawanie obrazów - podstawy
+#+AUTHOR: Szymon Zadworny
+
+* TODO
+- [ ] Opisać macierz transformacji perspektywicznej
+- [ ] Cechy obrazu:
+  - [ ] Krawędzie
+  - [ ] Tekstura
+  - [ ] Optical flow
+- [ ] Klasyfikacja obrazów
+  - [ ] Zastosowanie konwolucyjnych sieci neuronowych
+
+* Źródła:
+- Artificial Intelligence: A Modern Approach (4th ed.)
+
+* Informacje ogólne
+** Rodzaje sensorów
+*** Sensory aktywne
+Sensory, które wysyłają najpierw sygnał, żeby odczytać później jego wpływ na otoczenie.
+Przykłady: radar, Kinect
+
+*** Sensory pasywne
+Sensory, które nie wpływają na otoczenie. Przykłady: aparat.
+
+** Podejścia do widzenia komputerowego
+*** Podejście bazujące na wydobywaniu cech
+Podejście w którym na podstawie obrazu obliczamy liczby (/cechy/) najlepiej go opisujące. Przy podejmowaniu decyzji korzystamy z tych abstrakcyjnych cech zamiast z surowego wejścia.
+
+*** Podejście bazujące na modelu
+W tym podejściu tworzony jest model, który ma za zadanie opisać/wyjaśnić odbierany obraz. Wykorzystywane są tu dwa rodzaje modelu:
+1) /Model obiektowy/ - model opisujący ogólne właściwości obiektów.
+2) /Model renderowania/ - model, który opisuje fizyczne zjawiska powodujące powstawanie odbieranego obrazu
+
+** Główne zadania widzenia komputerowego
+*** Rekonstrukcja
+Agent buduje model świata na podstawie otrzymanego obrazu
+
+*** Rozpoznawanie
+Agent odróżnia obiekty które napotka na podstawie ich cech
+
+* Formowanie obrazów
+** Camera obscura
+Ten prosty model aparatu pozwala upewnić się, że sensor odbiera dane w przybliżeniu z tego samego miejsca świata rzeczywistego. Pozwala to na utworzenie skupionego obrazu.
+
+[[./camera_obscura.png]]
+
+Obraz tworzony przez ten aparat ulega /przekształceniu perspektywicznemu/:
+
+\begin{equation*}
+\begin{cases}
+x = \frac{-fX}{Z} \\
+y = \frac{-fY}{Z}
+
+\end{cases}
+\end{equation*}
+
+** Układ soczewek
+Ilość światła docierającego przez otwór camery obscury jest znikoma. Możemy powiększyć otwór, lecz wtedy obraz przestanie być skupiony. Aby przywrócić skupienie możemy skorzystać z /soczewek/, które przechwytują światło z dużej przestrzeni oraz je skupiają.
+
+Soczewki skupiają obraz w pewnym obszarze głębokości. W centrum tego obszaru ostrość skupianego obszaru jest największa - tworzy ono *płaszczyznę ogniskowania*. Zakres w którym ostrość jest dostatecznie duża to *głębia ostrości*.
+
+** Światłocień
+[[./diffuse.png]]
+
+Problemem przy interpretacji obrazu z sensora jest niejednorodne oświetlenie z otoczenia padające na obiekt. Ponadto, obiekt może samemu odbijać światło. Oświetlenie obiektu opisywane jest *prawem Lamberta*:
+
+$$I = \rho I_0 cos\vartheta$$
+gdzie $I$ to jasność badanego fragmentu obiektu, $\rho$ to diffuse albedo, $I_0$ to jasność światła a $\vartheta$ to kąt między źródłem światła a powierzchnią.
