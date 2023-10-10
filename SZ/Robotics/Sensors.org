@@ -1,0 +1,84 @@
+#+TITLE: Rodzaje sensorów
+
+* TODO
+- [ ] Jak lidary wykonują pomiar czasu odbicia? Czy nie jest to zbyt trudne przez prędkość światła?
+- [ ] Opisz czym jest dokładnie para kinematyczna
+  
+* Źródła:
+- Artificial Intelligence: A Modern Approach (4th ed.)
+- [[https://en.wikipedia.org/wiki/Lidar]]
+- https://en.wikipedia.org/wiki/Radar
+- [[https://pl.wikipedia.org/wiki/Przegub]]
+
+* Informacje ogólne
+** Sensory
+Urządzenia umożliwiające robotowi odczytywanie rzeczywistości
+
+** Efektory
+Urządzenia umożliwiające robotowi interakcję ze światem zewnętrznym
+
+** Aktuator/Element wykonawczy
+Element systemu wytwarzający siłę/moment siły w celu poruszenia efektora. Aktuatory dzielą się na:
+- elektryczne - wykorzystujące energię elektryczną do obrotu silnika
+- hydrauliczne - przesuwające organ roboczy (tłok, membrana) za pomocą cieczy i ciśnienia hydrostatycznego
+- pneumatyczne - to samo co hydrauliczne, ale wykorzystywane jest skompresowane powietrze
+  
+Wykorzystywane są one przede wszystkim do wprawienia przegubów w ruch.
+
+** Przeguby (joints)
+Ruchome połączenie brył sztywnych - ogniw (links) robota. Niektóre z ich rodzajów:
+- przeguby obrotowe - pozwalają na obrót jednego ogniwa względem drugiego
+- przeguby pryzmatyczne - pozwalają na przesuwanie jednego ogniwa po drugim
+
+* Rodzaje sensorów
+** Sensory aktywne vs pasywne
+Sensory aktywne ingerują w swoje otoczenie wysyłając do niego sygnały. Sensory pasywne tego nie robią.
+
+** Dalmierz (odległościomierz, range finder)
+Są to sensory służące do pomiaru odległości do pobliskich obiektów.
+
+*** Sonar (SOund Navigation And Ranging)
+Aktywny sensor wysyłający do swojego otoczenia ukierunkowane fale dźwiękowe. Dzięki pomiarowi czasu powrotu i intensywności odbitego od otoczenia sygnału można obliczyć przybliżoną odległość do obiektów. _Wykorzystywany zwykle pod wodą_.
+
+*** Projektory światła (structured light projectors)
+Urządzenia rzutujące regularne wiązki światła w celu odczytania zakrzywienia otoczenia.
+
+*** Lidar (LIght Detection And Ranging)
+Sensor podobny do sonaru, zastępujący fale dźwiękowe falami świetlnymi. Oferuje wysoką dokładność pomiaru w małych (w porównaniu do radaru) odległościach. _Używany często w urządzeniach naziemnych_ (w szczególności - w autonomicznych pojazdach).
+
+*** Radar (RAdio Detection And Ranging)
+Sensor podobny do sonaru, wykorzystujący do pomiaru odległości fale radiowe. W przeciwieństwie do lidaru działa na długie dystanse i nie jest zakłócony przez mgłę. Głównym problemem radaru jest jednak niska dokładność pomiaru na niewielkich rozdzielczościach. _Używany najczęściej na powietrzu_.
+
+*** Sensory taktylne
+Sensory zbierające informacje o swoim bezpośrednim otoczeniu. Czujniki dotykowe.
+
+** Czujniki położenia (location sensors)
+Sensory mające na celu wykrycie pozycji obiektu
+
+*** GPS (Global Positioning System) / GLONASS (Rosyjskie) / Galileo (Europejskie)
+Systemy nawigacyjne polegające na mierzeniu odległości obiektu od satelit emitujących pulsy sygnału. Następnie wyznaczana jest pozycja obiektu za pomocą trilateracji. Oferuje on dokładność co do kilku metrów.
+
+Różnicowy GPS (Differential GPS) - odmiana GPS wykorzystująca przy pomiarach dodatkowy odbiornik naziemny. Oferuje ona w najlepszych warunkach dokładność co do milimetra.
+
+Niestety _GPS nie działa w pomieszczeniach_ ani pod wodą.
+
+*** Bezprzewodowe stacje bazowe
+Stacje bazowe umieszczane w pomieszczeniach. Stanowią one alternatywę GPS dla robotów które nie mogą wyjść na zewnątrz.
+
+** Czujniki orientacji/sensory kinestetyczne (proprioceptive sensors)
+Sensory informujące robota o jego własnym stanie.
+
+*** Enkoder przyrostowy (incremental encoder)
+Sensor informujący o obrocie obiektu. Wykorzystywany do dokładnego ustawienia robotycznych kończyn. _W pojazdach poruszających się na kołach_ pomiary ich obrotów są wykorzystywane również do *odometrii - pomiaru przebytej odległości*.
+
+*** Sensory inercyjne (inertial sensors)
+Sensory dokonujące pomiaru na podstawie oporu masy do zmiany prędkości.
+
+**** Akcelerometr
+Urządzenie dokonujące pomiaru przyspieszenia
+
+**** Żyroskop
+Urządzenie służące do pomiaru orientacji i prędkości kątowej
+
+** Czujniki siły i momentu obrotowego (force sensors, torque sensors)
+Czujniki znajdujące zastosowanie przy potrzebie pracy z delikatnymi obiektami. Przykład - chwytanie pianki przez chwytak wymaga użycia niewielkiej siły, inaczej się ona rozgniecie. 
