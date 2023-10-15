@@ -1,0 +1,128 @@
+#+TITLE: PyTorch - quickstart
+
+* Struktura sieci neuronowej
+Sieci neuronowe w PyTorchu dziedziczą po klasie bazowej ~nn.Module~. Ich struktura jest zdefiniowana w metodzie ~__init__()~, a sposób w jaki zwracają wartość - w metodzie ~forward()~. Poniżej została zaimplementowana prosta, w pełni połączona trójwarstwowa sieć neuronowa przyjmująca 5 wejść i zwracająca 3 wyjścia:
+
+#+BEGIN_SRC python
+import torch.nn as nn
+import torch.nn.functional as F
+
+class NeuralNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # fully-connected layers
+        self.fc1 = nn.Linear(5, 10)
+        self.fc2 = nn.Linear(10, 10)
+        self.fc3 = nn.Linear(10, 3)
+
+    def forward(x):
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        x = F.relu(x)
+        x = self.fc3(x)
+        output = F.softmax(x)
+
+        return output
+
+net = NeuralNet()
+#+END_SRC
+
+Powyższa prosta sieć jest złożona z warstw przekazujących swoje wyjścia sekwencyjnie. Do takich prostych sieci można skorzystać z klasy ~nn.Sequential~. Powyższą klasę można równoważnie zapisać jako:
+
+#+BEGIN_SRC python
+import torch.nn as nn
+
+net = nn.Sequential(
+    nn.Linear(5, 10),
+    nn.ReLU(),
+    nn.Linear(10, 10),
+    nn.ReLU(),
+    nn.Linear(10, 3),
+    nn.Softmax()
+)
+#+END_SRC
+
+Klasa ~nn.Sequential~ posiada już domyślną definicję metody ~forward()~ - powyższa sieć jest gotowa do użycia. W PyTorch 1.8 wprowadzono tzw. /lazy modules/ - pozwalają one na domyślenie się przez PyTorch rozmiaru danej warstwy za pomocą jej wejść. Powyższy kod może być więc jeszcze bardziej uproszczony:
+
+#+BEGIN_SRC python
+net = nn.Sequential(
+    nn.LazyLinear(10),
+    nn.ReLU(),
+    nn.LazyLinear(10),
+    nn.ReLU(),
+    nn.LazyLinear(3),
+    nn.Softmax()
+)
+#+END_SRC
+
+* Optymalizacja parametrów
+Sieć jest trenowana w pętli w której:
+1) ewaluujemy wejście (forward-pass)
+2) porównujemy obliczone wyjście z prawdziwym wyjściem za pomocą funkcji straty
+3) propagujemy błąd od końcowych do początkowych warstw (backward pass, autograd robi to za nas)
+4) aktualizujemy wagi
+
+** Ewaluacja sieci
+Do ewaluowania sieci *nie wykorzystujemy* bezpośrednio ~nn.module.forward()~. Zamiast tego używamy przeładowanego operatora ~__call__()~ (czyli zamiast ~model.forward(x)~ jest po prostu ~model(x)~). Operator ~__call__()~ poza wywołaniem metody ~forward()~ zarządza również wewnętrznym stanem PyTorcha.
+
+** Funkcja straty
+PyTorch oferuje klasy implementujące często wykorzystywane funkcje straty. Umieszczone są one w ~torch.nn~. Możemy np. w prosty sposób stworzyć instancję entropii krzyżowej:
+
+#+BEGIN_SRC python
+loss_fn = nn.CrossEntropyLoss()
+#+END_SRC
+
+** Optymalizator
+Podobnie jak z funkcjami strat, możemy również skorzystać z gotowych optymalizatorów zawartych w ~torch.optim~. Optymalizator przyjmuje na swoje wejście parametry sieci, oraz opcjonalne hiperparametry. Możemy np. utworzyć w poniższy sposób instancję optymalizatora Adam:
+
+#+BEGIN_SRC python
+import torch.optim as optim
+
+optimizer = optim.Adam(net.parameters())
+#+END_SRC
+
+Aby skorzystać z optymalizatora trzeba najpierw przekazać błąd sieci za pomocą propagacji wstecznej. Istnieje do tego metoda ~backward()~ korzystająca w tle z autograda. Należy pamiętać, że autograd domyślnie akumuluje błędy zamiast ich nadpisywania. W pętli optymalizacyjnej trzeba więc ręcznie w każdej iteracji wyzerować gradient:
+
+#+BEGIN_SRC python
+# a single epoch
+for i, data in enumerate(trainloader, 0):
+    # extract the data tuple from the loader
+    inputs, labels = data
+
+    # zero out the parameter gradient
+    optimizer.zero_grad()
+
+    # forward pass
+    outputs = net(inputs)
+    # calculating the loss
+    loss = loss_fn(outputs, labels)
+    # backward pass
+    loss.backward()
+    # weight update
+    optimizer.step()
+#+END_SRC
+
+* Użycie GPU
+Domyślnie PyTorch wykorzystuje do obliczeń CPU. Aby skorzystać z GPU należy najpierw określić wykorzystywane urządzenie:
+
+#+BEGIN_SRC python
+device = (
+    "cuda" if torch.cuda.is_available()
+    else "mps" if torch.backends.mps.is_available()
+    else "cpu"
+)
+#+END_SRC
+
+Następnie należy przesłać na te urządzenie zadeklarowaną wcześniej sieć. Poprzednią sieć ~net~ możemy przesłać na urządzenie ~device~ za pomocą:
+
+#+BEGIN_SRC python
+net.to(device)
+#+END_SRC
+
+Każde dane wejściowe do tej sieci również muszą zostać przesłane na te urządzenie. Wobec tego zmieniamy pętlę optymalizacyjną:
+
+#+BEGIN_SRC python
+for i, data in enumerate(trainloader, 0):
+    inputs, labels = data[0].to(device), data[1].to(device)
+#+END_SRC
