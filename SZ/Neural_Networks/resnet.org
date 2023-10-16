@@ -1,0 +1,32 @@
+#+TITLE: Resztkowe Sieci Neuronowe (Residual Networks)
+
+* Motywacja
+** Głębokość sieci a dokładność uczenia
+W przeprowadzonych badaniach wykazano, że im głębsza jest sieć konwolucyjna, tym gorzej radzi sobie ze znalezieniem optymalnego rozwiązania. Jest to niepokojące, ponieważ głębsze sieci są w stanie zakodować o wiele więcej potencjalnych rozwiązań/zależności niż sieci płytkie.
+
+** Problem zanikających gradientów
+Ta nieintuicyjna cecha pochodzi głównie z problemu zanikających gradientów. Wagi sieci są losowane przed rozpoczęciem trenowania. Im głębsza jest sieć, tym losowe wagi bardziej modyfikują sygnał.
+- W przypadku kroku w przód (/forward pass/) sygnał wejściowy jest zaszumiany z każdym przejściem przez kolejną warstwę
+- W przypadku propagacji wstecznej najpierw obliczamy błąd na podstawie masywnie zaszumionego sygnału wejściowego, a następnie przesyłamy ten sygnał przez całą sieć zaszumiając go tym samym jeszcze bardziej.
+
+Powoduje to, że bardzo głębokie sieci ignorują dane wejściowe, ponieważ w trakcie przechodzenia przez sieć zmieniają się w szum.
+
+** Analiza architektury sieci
+Zwykłe sieci neuronowe nadpisują w pełni swoje wagi w trakcie ich aktualizacji. Ponadto, im głębsza jest sieć, tym dłuższą drogę musi przebyć sygnał wejściowy i sygnał błędu. Problem zanikających gradientów mógłby zostać potencjalnie rozwiązany, gdyby informacja o wejściach nie była w pełni nadpisywana tylko była perturbowana, a same sygnały mogły szybciej dotrzeć do krańców sieci.
+
+* Architektura ResNet
+[[./images/resnet.png]]
+
+W architekturze ResNet dzielimy sieć neuronową na mniejsze sieci neuronowe (bloki). Istnieją przeskoki pomiędzy blokami - np. na obrazku wejście do bloku $\mathbf{x}_2$ to wyjście z bloku $\mathbf{x}_1$ oraz wejście do bloku $\mathbf{x}_1$. Taki przeskok pozwala na zachowanie części oryginalnego sygnału, tym samym unikamy jego zaszumiania.
+
+** Jak łączyć sygnały?
+Możemy przeprowadzać konkatenację sygnałów wejściowych/wyjściowych, jednakże przy głębokich sieciach doprowadziłoby to do eksplozji parametrów. Preferowanym rozwiązaniem jest łączenie sygnałów poprzez ich sumowanie. Podczas gdy oryginalnie sygnał wejściowy $\mathbf{x}^{(i-1)}$ był kompletnie zamieniany przez sygnał wyjściowy $\mathbf{x}^{(i)}$:
+$$\mathbf{x}^{(i)} = \mathbf{g}^{(i)}(\mathbf{W}^{(i)} \mathbf{x}^{(i-1)})$$
+
+w przypadku architektury ResNet będziemy go modyfikować poniższym wzorem:
+$$\mathbf{x}^{(i)} = \mathbf{g}_r^{(i)}(\mathbf{x}^{(i-1)}  + f(\mathbf{x}^{(i-1)}))$$
+
+Gdzie $\mathbf{g}_r^{(i)}$ to funkcja aktywacji i-tej warstwy resztkowej (/residual layer/) a $f$ jest inną siecią neuronową.
+
+* Problemy resztkowych sieci neuronowych
+W przypadku konwolucyjnych sieci musimy mieć na uwadzę fakt, że wejście do warstw konwolucyjnych ma inny rozmiar niż wyjście. Można to rozwiązać przez konkatenację bądź przez wypełnianie mniejszego wyjścia jakimiś pustymi wartościami.
