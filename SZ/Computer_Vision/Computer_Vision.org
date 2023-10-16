@@ -3,10 +3,6 @@
 
 * TODO
 - [ ] Opisać macierz transformacji perspektywicznej
-- [ ] Cechy obrazu:
-  - [ ] Krawędzie
-  - [ ] Tekstura
-  - [ ] Optical flow
 - [ ] Klasyfikacja obrazów
   - [ ] Zastosowanie konwolucyjnych sieci neuronowych
 
@@ -21,7 +17,7 @@ Przykłady: radar, Kinect
 
 *** Sensory pasywne
 Sensory, które nie wpływają na otoczenie. Przykłady: aparat.
-
+texton
 ** Podejścia do widzenia komputerowego
 *** Podejście bazujące na wydobywaniu cech
 Podejście w którym na podstawie obrazu obliczamy liczby (/cechy/) najlepiej go opisujące. Przy podejmowaniu decyzji korzystamy z tych abstrakcyjnych cech zamiast z surowego wejścia.

@@ -1,0 +1,51 @@
+#+TITLE: Cechy obrazów
+
+* Krawędzie
+Aby wykryć obecność krawędzi nie musimy posiadać wiedzy o tym co przedstawia obraz jako całość. Krawędź możemy uznać jako gwałtowną zmianę w intensywności obrazu. Takie uproszczone podejście ma swoje problemy (np. wykrywanie cieni jako krawędzi obiektu), które należy potem rozwiązać poprzez dalsze przetwarzanie obrazu. Poniższy schemat przedstawia możliwe źródła krawędzi w obrazie.
+
+[[./edges.png]]
+
+** Implementacja wykrywania krawędzi
+Ponieważ poszukujemy zmian w intensywności obrazu możemy skorzystać z gradientu intensywności $\nabla I(x, y)$ - za krawędź uznajemy wtedy wektory gradientu o największej długości $||\nabla I||$. Problemem jest jednak fakt, że obraz zwykle jest zaszumiony. 
+
+Możemy sobie jednak z tym poradzić poprzez wygładzanie obrazu. Możemy do tego skorzystać z filtru Gaussa - funkcji $G_\sigma (x, y) = \frac{1}{2\pi\sigma^2} exp(-\frac{x^2 + y^2}{2\sigma^2})$. Wygładzimy obraz poprzez wykonanie konwolucji filtru z obrazem. Co ciekawe - według reguł konwolucji $\nabla (I * G_\sigma) = I * \nabla G_\sigma$, więc nie musimy ręcznie liczyć gradientu intensywności obrazu. Wystarczy że przeprowadzimy konwolucję intensywności obrazu z gradientem filtru Gaussa.
+
+* Tekstura
+Tekstura obiektu opisuje wygląd jego powierzchni. Zbudowana jest z mniejszych fragmentów zwanych tekselami (ang. /texel/ - /texture element/). W grafice komputerowej analogią tekselu jest piksel, a w widzeniu komputerowym teksel jest /rejonem/ opisującym mały fragment tekstury (inaczej tzw. texton). Tekstura obiektu jest niezależna od jego transformacji (np. obrót) i interakcji z otoczeniem (np. padające na teksturę światło). System widzenia komputerowego musi mieć to na uwadze.
+
+** Metody wydobywania informacji o teksturach
+Aby wydobyć informacje o teksturze można obliczyć dla małego fragmentu obrazu orientację gradientu oraz scharakteryzować te fragmenty przez histogram. Na podstawie tego histogramu można wydobyć informacje o wzorcach tekstury (np. paski na teksturze byłyby przedstawione dwoma wzniesieniami histogramu orientacji). Do konstrukcji fragmentów obrazu i wykrywania podobnych histogramów orientacji można wykorzystać konwolucyjne sieci neuronowe
+
+Inne metody:
+[[https://medium.com/@trapti.kalra/texture-analysis-with-deep-learning-for-improved-computer-vision-aa627c8bb133]]
+1) GLCM
+2) LBP
+3) Wavelet
+4) Fractal
+5) Image gradient
+
+* Przepływ optyczny (optical flow)
+
+[[./optical_flow.png]]
+
+Przepływ optyczny opisuję ruch elementów na podstawie różnic między następującymi po sobie klatkami obrazu. Jeżeli naiwnie założymy, że intensywność poruszających fragmentów obrazu nie ulega zmienie w trakcie ruchu możemy w miarę prosty sposób wyznaczyć przepływ optyczny.
+
+Dla danego bloku pikseli z pierwszej klatki wyśrodkowanego względem punktu $P$, znajdujemy taki blok pikseli z drugiej klatki wyśrodkowany w punkcie $Q$, który minimalizuję różnicę intensywności pikseli między blokami. Wtedy wektor $\mathbf{x} = Q - P$ stanowił będzie wektor przesunięcia bloku pikseli. Ponieważ wiemy ile czasu minęło między klatkami możemy wyznaczyć prędkość tego bloku. Uzyskany wektor prędkości $\mathbf{v} = \mathbf{x} / \Delta t$ opisuje przepływ optyczny danego fragmentu obrazu.
+
+* Segmentacja obrazu
+Ponieważ same dane o krawędziach nie wystarczają do rozróżnienia obiektów (krawędzie nie muszą być poprawne) chcielibyśmy rozbić fragmenty obrazu na grupy o podobnych właściwościach (jasność, kolor, tekstura). Ten proces to segmentacja obrazu. Istnieją dwa możliwe cele tego procesu:
+- Wyznaczenie dokładnych granic obiektów (kontury)
+- Wyznaczenie przestrzeni samych obiektów (czyli wnętrze konturów)
+
+Istnieją również różne podejścia do rozwiązania tego problemu.
+
+** Wykrywanie granic jako problem klasyfikacji
+Mamy przygotowany zbiór obrazów z poprawnie zaznaczonymi krawędziami. Dla danego piksela znajdującego się na krawędzi tworzymy okrąg określający jego sąsiedztwo, którego połówki stanowią osobne strony granicy. Obliczamy prawdopodobieństwo że ten piksel jest częścią granicy porównując ze sobą cechy obu stron utworzonego okręgu.
+
+Powyższe podejście jest lepsze od samej detekcji krawędzi, lecz:
+1) nie zapewnia ciągłości krawędzi
+2) korzysta tylko z lokalnych informacji (rejon), a nie całości obrazu
+
+** Wykrywanie granic jako problem klasteryzacji
+Korzystamy z algorytmów klasteryzacji (np. k-means) aby wykryć rejony o podobnych cechach.
+
