@@ -17,7 +17,7 @@ Przykłady: radar, Kinect
 
 *** Sensory pasywne
 Sensory, które nie wpływają na otoczenie. Przykłady: aparat.
-texton
+
 ** Podejścia do widzenia komputerowego
 *** Podejście bazujące na wydobywaniu cech
 Podejście w którym na podstawie obrazu obliczamy liczby (/cechy/) najlepiej go opisujące. Przy podejmowaniu decyzji korzystamy z tych abstrakcyjnych cech zamiast z surowego wejścia.
