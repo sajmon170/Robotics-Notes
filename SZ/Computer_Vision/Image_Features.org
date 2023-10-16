@@ -3,7 +3,7 @@
 * Krawędzie
 Aby wykryć obecność krawędzi nie musimy posiadać wiedzy o tym co przedstawia obraz jako całość. Krawędź możemy uznać jako gwałtowną zmianę w intensywności obrazu. Takie uproszczone podejście ma swoje problemy (np. wykrywanie cieni jako krawędzi obiektu), które należy potem rozwiązać poprzez dalsze przetwarzanie obrazu. Poniższy schemat przedstawia możliwe źródła krawędzi w obrazie.
 
-[[./edges.png]]
+[[./images/edges.png]]
 
 ** Implementacja wykrywania krawędzi
 Ponieważ poszukujemy zmian w intensywności obrazu możemy skorzystać z gradientu intensywności $\nabla I(x, y)$ - za krawędź uznajemy wtedy wektory gradientu o największej długości $||\nabla I||$. Problemem jest jednak fakt, że obraz zwykle jest zaszumiony. 
@@ -26,11 +26,11 @@ Inne metody:
 
 * Przepływ optyczny (optical flow)
 
-[[./optical_flow.png]]
+[[./images/optical_flow.png]]
 
 Przepływ optyczny opisuję ruch elementów na podstawie różnic między następującymi po sobie klatkami obrazu. Jeżeli naiwnie założymy, że intensywność poruszających fragmentów obrazu nie ulega zmienie w trakcie ruchu możemy w miarę prosty sposób wyznaczyć przepływ optyczny.
 
-Dla danego bloku pikseli z pierwszej klatki wyśrodkowanego względem punktu $P$, znajdujemy taki blok pikseli z drugiej klatki wyśrodkowany w punkcie $Q$, który minimalizuję różnicę intensywności pikseli między blokami. Wtedy wektor $\mathbf{x} = Q - P$ stanowił będzie wektor przesunięcia bloku pikseli. Ponieważ wiemy ile czasu minęło między klatkami możemy wyznaczyć prędkość tego bloku. Uzyskany wektor prędkości $\mathbf{v} = \mathbf{x} / \Delta t$ opisuje przepływ optyczny danego fragmentu obrazu.
+Dla danego bloku pikseli z pierwszej klatki wyśrodkowanego względem punktu $P$, znajdujemy taki blok pikseli z drugiej klatki wyśrodkowany w punkcie $Q$, który minimalizuję różnicę intensywności pikseli między blokami. Wtedy wektor $\Delta \mathbf{r} = Q - P$ stanowił będzie wektor przesunięcia bloku pikseli. Ponieważ wiemy ile czasu minęło między klatkami możemy wyznaczyć prędkość tego bloku. Uzyskany wektor prędkości $\mathbf{v} = \Delta \mathbf{r} / \Delta t$ opisuje przepływ optyczny danego fragmentu obrazu.
 
 * Segmentacja obrazu
 Ponieważ same dane o krawędziach nie wystarczają do rozróżnienia obiektów (krawędzie nie muszą być poprawne) chcielibyśmy rozbić fragmenty obrazu na grupy o podobnych właściwościach (jasność, kolor, tekstura). Ten proces to segmentacja obrazu. Istnieją dwa możliwe cele tego procesu:
