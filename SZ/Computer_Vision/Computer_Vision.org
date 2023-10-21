@@ -3,10 +3,6 @@
 
 * TODO
 - [ ] Opisać macierz transformacji perspektywicznej
-- [ ] Cechy obrazu:
-  - [ ] Krawędzie
-  - [ ] Tekstura
-  - [ ] Optical flow
 - [ ] Klasyfikacja obrazów
   - [ ] Zastosowanie konwolucyjnych sieci neuronowych
 
@@ -42,7 +38,7 @@ Agent odróżnia obiekty które napotka na podstawie ich cech
 ** Camera obscura
 Ten prosty model aparatu pozwala upewnić się, że sensor odbiera dane w przybliżeniu z tego samego miejsca świata rzeczywistego. Pozwala to na utworzenie skupionego obrazu.
 
-[[./camera_obscura.png]]
+[[./images/camera_obscura.png]]
 
 Obraz tworzony przez ten aparat ulega /przekształceniu perspektywicznemu/:
 
@@ -50,7 +46,6 @@ Obraz tworzony przez ten aparat ulega /przekształceniu perspektywicznemu/:
 \begin{cases}
 x = \frac{-fX}{Z} \\
 y = \frac{-fY}{Z}
-
 \end{cases}
 \end{equation*}
 
@@ -60,7 +55,7 @@ Ilość światła docierającego przez otwór camery obscury jest znikoma. Może
 Soczewki skupiają obraz w pewnym obszarze głębokości. W centrum tego obszaru ostrość skupianego obszaru jest największa - tworzy ono *płaszczyznę ogniskowania*. Zakres w którym ostrość jest dostatecznie duża to *głębia ostrości*.
 
 ** Światłocień
-[[./diffuse.png]]
+[[./images/diffuse.png]]
 
 Problemem przy interpretacji obrazu z sensora jest niejednorodne oświetlenie z otoczenia padające na obiekt. Ponadto, obiekt może samemu odbijać światło. Oświetlenie obiektu opisywane jest *prawem Lamberta*:
 
