@@ -1,0 +1,46 @@
+#+TITLE: Roboty na kołach
+
+* Rodzaje kół
+**  Koła standardowe
+Najczęściej spotykane koła, nie posiadają żadnej specjalnej budowy
+
+** Koła szwedzkie (wielokierunkowe)
+Inaczej koła mecanum - pozwalają na poruszanie się w dowolnym kierunku za pomocą umieszczonych na nim walców.
+
+[[images/omnidirectional_wheel.png]]
+
+* Rodzaje robotów
+** Ze względu na klasy
+Mobilne roboty dzielą się na klasy $(\Delta_m, \Delta_s)$, gdzie:
+- $\Delta_m$ to liczba stopni swobody korpusu robota, które mogą być zmieniane przez zmianę prędkości kół
+- $\Delta_s$ to liczba kół skrętnych robota
+
+Najpopularniejsze klasy robotów:
+- $(2, 0)$ - unicycle - posiada dwa koła umieszczone na wspólnej osi, które mogą poruszać się z różnymi prędkościami (/differential drive wheeled robot/)
+- $(3, 0)$ - robot z trzema kołami szwedzkimi
+- $(1, 1)$ - samochód kinematyczny, zachowuje się podczas jazdy tak samo jak zwykły samochód
+
+** Ze względu na kierunek jazdy
+Wybór kół posiada bezpośredni wpływ na sposób poruszania się robota
+
+*** Roboty omnikierunkowe (holonomiczne)
+Roboty, które mogą kontrolować każdy stopień swobody swojej konfiguracji. Są to m. in. roboty stosujące koła mecanum.
+
+*** Roboty nieholonomiczne
+Roboty, które nie mogą kontrolować swoich wszystkich stopni swobody, ze względu na nałożone ograniczenia. Roboty o zwykłych czterech kołach są ograniczone tym, że nie mogą poruszyć się w lewo-prawo bez skręcania.
+
+** Ze względu na budowę
+*** Roboty z trzema kołami
+Osiągają one stabilność w płaszczyźnie, ich orientacja może się jednak gwałtownie zmieniać podczas przejazdu na nieregularnych powierzchniach. Jednym z najpopularniejszych typów tych robotów to robot klasy $(2, 0)$ (dwa koła z różnymi prędkościami + kołowrotek).
+
+Można również łatwo zbudować robota z trzema szwedzkimi kołami - robota klasy $(3, 0)$. Mogą poruszać się w dowolnym kierunku, główną ich wadą jest jednak słaba wytrzymałość szwedzkich kół.
+
+*** Roboty z czterema kołami
+Roboty na czterech kołach są stabilne podczas szybkiej jazdy, wymagają jednak skomplikowanego mechanizmu sterowania.
+
+* Sterowanie Ackermanna
+[[images/ackermann_steering.png]]
+
+Aby zapewnić większą stabilność w trakcie jazdy poprzez zniwelowanie poślizgu utworzono /sterowanie Ackermanna/ opisane w schemacie wyżej. Wynika z niego, że przednie koła jeżdżą w różnych kierunkach aby zachować stabilność. Sterowanie te jest opisane poniższymi równaniami kinematycznymi:
+
+[[images/kinematic_equations.png]]
