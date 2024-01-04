@@ -1,0 +1,37 @@
+#+TITLE: Przewody robota
+
+* TODO
+- Obliczyć prąd płynący w poszczególnych fragmentach obwodu
+- Na jego podstawie wybrać poprawne AWG
+
+* Kontekst
+Przed rozpoczęciem projektu posiadaliśmy już przewody do łączenia elementów na płytkach stykowych, były one jednak zbyt słabe aby móc ich użyć. Pracujemy na różnych poziomach napięcia:
+- między zasilaczem a przetwornicą od zasilania występuje 24V
+- między przetwornicą od zasilania a BMSem występuje 16.8V
+- między BMSem a przetwornicami od silników/SBC występuje 16.8V  
+- między przetwornicą od SBC a SBC występuje 5V
+- między przetwornicą od silników a silnikami występuje 5.5V
+
+ze względu na prawo Ohma ($I = U/R$) prąd płynący przez obwód zwiększa się wraz ze wzrostem napięcia. Przy małych rezystancjach występujących w przewodach wzrost ten jest szczególnie zauważalny. Bez wzięcia tego pod uwagę zbyt słabe przewody bez stosownego obciążenia mogą się spalić.
+
+* Cechy przewodu
+** Grubość
+W większości przeglądanych przez nas sklepów przewody były oznaczane wg systemu AWG (ang. /American Wire Gauge/ - amerykańska miara przewodów). Jest to logarytmiczna miara, w której im wyższy jest numer AWG tym cieńszy jest przewód.
+
+Grubość przewodu można również podać za pomocą średnicy/pola przekroju w jednostkach z systemu metrycznego.
+
+[[./images/awg-to-metric.jpg]]
+
+** Materiał
+Obecnie najczęściej spotykane materiały przewodów to miedź i aluminium. Aluminium jest przede wszystkim tańsze i lżejsze od miedzi, posiada jednakże tylko 61% jej przewodności. Rekompensuje się to poprzez stosowanie przewodu o większym numerze AWG
+
+* Jaki wybrać przewód?
+** Materiał
+Zastosowanie aluminiowego kabla nie jest dla nas akceptowalne. Dążymy do jak najmniejszych strat energetycznych ponieważ całość układu jest zasilana z baterii. Stosowanie kabli aluminiowych zwiększyłoby zarówno rozmiar obwodów jak i straty energetyczne oraz poziom ich grzania ze względu na wewnętrzną rezystancję. _Wobec tego, w naszym układzie korzystamy z kabli miedzianych_.
+
+** Grubość
+[[./images/awg-chart.jpg]]
+
+Przy dobieraniu grubości należy przede wszystkim uwzględnić prąd płynący przez kable. Im grubszy jest kabel, tym większy prąd jest on w stanie obsłużyć.
+
+Do naszych zastosowań mieliśmy zakupić kable o numerze AWG 18, ponieważ są w stanie obsłużyć prąd przechodzący przez układ BMS oraz dawały nam nadmiarowe bezpieczeństwo. Ponieważ takowe się skończyły do budowy pierwszego prototypu wybraliśmy przewody z AWG 20.
