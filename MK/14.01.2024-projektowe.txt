@@ -1,0 +1,22 @@
+Spotkanie rozpoczęłos się od czytania o wave function collapse:
+https://www.boristhebrave.com/2020/02/08/wave-function-collapse-tips-and-tricks/
+Można użyć dodatku gotowego do Unity - Tessera, by generować gotowe poziomy, jeżeli zrobienie własnego okaże się za trudne:
+https://assetstore.unity.com/packages/tools/level-design/tessera-procedural-tile-based-generator-155425
+Narzędzia od Google do algorytmiki i pozwala na constraint programming:
+https://developers.google.com/optimization
+Szymon stworzył podstawowy tileset w Blenderze złożony z tile-ów: ściany, podłogi i narożnika. By wykorzystać tileset wystarczy zaimportować do Unity pliki .blend, jednak zdecydowaliśmy się na eksport plików .fbx. Tutorial do eksportu/importu:
+https://all3dp.com/2/blender-to-unity-how-to-import-blender-models-in-unity/
+Dokumentacja Unity dotycząca używania tekstur i materiałów na importowanych modelach:
+https://docs.unity3d.com/Manual/ImportingModelFiles.html#project
+Każdy z nas osobno zaimportował do Unity modele (paczka wrzucona na Discordzie).
+Dodaliśmy MeshCollider na obiekty konkretnych tile-ów i RigidBody na jakiś inny obiekt, co sprawia, że nie przenika on przez ściany.
+Trzeba ogarnąć importowanie wyżej podlinkowanej biblioteki od Googla do Unity.
+W razie gdyby gotowy algorytm z biblioteki OR-Tools "robił za nas za dużo" można po zrobieniu generatora zastąpić napisane tam funkcje naszymi własnymi implementacjami.
+Próba zaimportowania OR-Tools do Unity...
+Jak zrobić Nuget na Linuxie: https://learn.microsoft.com/pl-pl/nuget/install-nuget-client-tools?tabs=macos - nie wiadomo jeszcze czy będziemy korzystać z tego.
+Integracja NuGet w Unity: https://github.com/GlitchEnzo/NuGetForUnity
+NuGet to M$$-menadżer pakietów, ale przynajmniej działa pod Linuxem.
+Warto zwrócić uwagę na sekcję Missing System Libraries w repozytorium NuGetForUnity.
+Zainstalowaliśmy wszyscy tego NuGetForUnity sposobem nr 2 wg README z repo. Czyli Window -> Package Manager -> Plusik i Add from Git URL i tam dać linka który jest w repo do skopiowania.
+Za pomocą tego narzędzia można zainstalować OR-Tools.
+Po instalacji pakietu OR-Tools wystapiły ostrzeżenia / błędy w Unity związane z NET Framework.
